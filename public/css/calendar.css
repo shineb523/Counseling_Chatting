@@ -1,0 +1,57 @@
+#title {
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 40px;
+}
+
+#table-head {
+    height: 30px;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+td, tr {
+    width: 125px;
+    height: 100px;
+}
+
+.sunday {
+    color: red;
+}
+
+.saturday {
+    color: dodgerblue;
+}
+
+#prev, #next {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+#month-selector {
+    text-align: center;
+    width: 170px;
+    margin: auto;
+}
+
+#month-selector tr, #month-selector td {
+    height: 10px;
+}
+
+#month {
+    font-size: 48px;
+}
+
+.month-table-border {
+    border-color: white;
+}
+
+#calendar-table {
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}

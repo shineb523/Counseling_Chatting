@@ -1,0 +1,48 @@
+
+<!--  회원 탈퇴 사유 페이지 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>회원 탈퇴 사유</title>
+</head>
+
+<body>
+    회원 탈퇴 사유
+    <!--
+    1. 탈퇴 사유 선택/작성
+    2. 탈퇴 사유 데이터 수집
+    3. 계정 데이터 데이터베이스에서 삭제(2주동안 재가입 불가)
+     -->
+    <form  action="/withdrawal" method="post">
+        <select name="withdrawal_reason_selected" id="withdrawal_reason_selected">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+            <option value="d">d</option>
+            <option value="e" selected="selected">e</option>
+        </select>
+        <textarea id="withdrawal_reason_text" name="withdrawal_reason_text" rows="8" cols="60"></textarea>
+        <input type="submit" value="제출">
+    </form>
+
+</body>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script>
+		(jQuery)(function($) {
+			$("#withdrawal_reason_selected").change(function(){
+				var state=$("#withdrawal_reason_selected option:selected").val();
+
+				if(state=="e"){
+					$("#withdrawal_reason_text").show();
+				}else{
+					$("#withdrawal_reason_text").hide();
+				}
+			});
+		});
+	</script>
+</html>
