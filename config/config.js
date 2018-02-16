@@ -44,6 +44,11 @@
              path: '/withdrawal',
              type: 'post'
          },
+		 {
+             method_file_path: '../routes/route_files/withdrawal_cancel_post',
+             path: '/withdrawal_cancel',
+             type: 'post'
+         },
          {
              method_file_path: '../routes/route_files/create_room_get',
              path: '/create_room',
@@ -112,6 +117,11 @@
          {
              method_file_path: '../routes/route_files/withdrawal_reason_get',
              path: '/withdrawal_reason',
+             type: 'get'
+         },
+		 {
+             method_file_path: '../routes/route_files/withdrawal_cancel_get',
+             path: '/withdrawal_cancel',
              type: 'get'
          }
 
