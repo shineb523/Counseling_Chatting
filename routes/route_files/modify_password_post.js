@@ -16,13 +16,14 @@ module.exports = function(req, res) {
         });
     } else {
 
-        if (!req.app.check_changepwd) {
+        if (!req.session.check_changepwd) {
             console.log('현재 비밀번호 확인되지 않음.');
             res.render('current_password_confirm_changepwd.ejs');
             return;
         }
 
         console.log('사용자 인증된 상태임.');
+		console.log('req.session : ', req.session);
 
         var database = req.app.get('database');
 

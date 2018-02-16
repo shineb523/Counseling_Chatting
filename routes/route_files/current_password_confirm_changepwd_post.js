@@ -48,8 +48,8 @@ module.exports = function(req, res) {
                 if ((!err) && user && authenticated) {
                     // 정상인 경우
                     console.log('현재 비밀번호가 일치함.');
-                    req.app.check_changepwd = true;
-                    console.log(req.app.check_changepwd);
+					req.session.check_changepwd=true;
+					console.log('req.session : ', req.session);
                     res.render('modify_password.ejs');
                 }
             });

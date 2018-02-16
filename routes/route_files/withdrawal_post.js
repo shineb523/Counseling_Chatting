@@ -14,13 +14,14 @@ module.exports = function(req, res) {
         });
     } else {
 
-        if (!req.app.check_withdrawal) {
+        if (!req.session.check_withdrawal) {
             console.log('현재 비밀번호 확인되지 않음.');
             res.render('current_password_confirm_withdrawal.ejs');
             return;
         }
 
         console.log('사용자 인증된 상태임.');
+		console.log('req.session : ', req.session);
 
         var database = req.app.get('database');
 

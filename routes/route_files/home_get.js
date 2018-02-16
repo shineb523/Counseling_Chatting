@@ -57,11 +57,7 @@ module.exports = function(req, res) {
         return;
     }
 
-    req.app.check_changepwd = false;
-    console.log(req.app.check_changepwd);
-
-    req.app.check_withdrawal = false;
-    console.log(req.app.check_withdrawal);
+	console.log('req.session : ', req.session);
 
     console.log('req.user의 정보');
     console.dir(req.user);
