@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Test</title>
+</head>
+<body>
+	<div id="test"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<script>
+	(jQuery)(function($) {
+		var date_now=Date.now();
+
+		var withdrawal_completion_date = 1518622500000+1209600000;
+		console.log('withdrawal_completion_date', withdrawal_completion_date);
+
+		var withdrawal_time_remaining_days = (withdrawal_completion_date - date_now) / 1000 / 60 / 60 / 24;
+		var withdrawal_time_remaining_days_int = parseInt(withdrawal_time_remaining_days);
+		console.log('withdrawal_time_remaining_days', withdrawal_time_remaining_days);
+
+		var withdrawal_time_remaining_hours = (withdrawal_completion_date - date_now - withdrawal_time_remaining_days_int*1000*60*60*24) / 1000 / 60 / 60 ;
+		var withdrawal_time_remaining_hours_int = parseInt(withdrawal_time_remaining_hours);
+		console.log('withdrawal_time_remaining_hours', withdrawal_time_remaining_hours);
+
+		var withdrawal_time_remaining_minutes = (withdrawal_completion_date - date_now - withdrawal_time_remaining_days_int*1000*60*60*24 - withdrawal_time_remaining_hours_int*1000*60*60) / 1000 / 60 ;
+		var withdrawal_time_remaining_minutes_int = parseInt(withdrawal_time_remaining_minutes);
+		console.log('withdrawal_time_remaining_minutes', withdrawal_time_remaining_minutes);
+
+		$("#test").text(withdrawal_time_remaining_minutes_int);
+	});
+</script>
+</html>
