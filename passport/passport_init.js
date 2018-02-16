@@ -44,10 +44,46 @@ module.exports = function(app, router, passport) {
 
 	// 로그인 인증 라우터 설정
 	router.route('/login').post(passport.authenticate('local-login', {
-	    successRedirect: '/selection',
-	    failureRedirect: '/signin_failed_authentication',
-	    failureFlash: true
-	}));
+	    failureRedirect: '/signin_failed_authentication'
+	}), function(req, res){
+		if(req.user.withdrawal_boolean==true){
+
+			var date_now=Date.now();
+
+			var withdrawal_completion_date = (req.user.withdrawal_at).getTime()+1209600000;
+			console.log('withdrawal_completion_date', withdrawal_completion_date);
+
+			var withdrawal_time_remaining_days = (withdrawal_completion_date - date_now) / 1000 / 60 / 60 / 24;
+			var withdrawal_time_remaining_days_int = parseInt(withdrawal_time_remaining_days);
+			console.log('withdrawal_time_remaining_days_int', withdrawal_time_remaining_days_int);
+
+			var withdrawal_time_remaining_hours = (withdrawal_completion_date - date_now - withdrawal_time_remaining_days_int*1000*60*60*24) / 1000 / 60 / 60 ;
+			var withdrawal_time_remaining_hours_int = parseInt(withdrawal_time_remaining_hours);
+			console.log('withdrawal_time_remaining_hours_int', withdrawal_time_remaining_hours_int);
+
+			var withdrawal_time_remaining_minutes = (withdrawal_completion_date - date_now - withdrawal_time_remaining_days_int*1000*60*60*24 - withdrawal_time_remaining_hours_int*1000*60*60) / 1000 / 60 ;
+			var withdrawal_time_remaining_minutes_int = parseInt(withdrawal_time_remaining_minutes);
+			console.log('withdrawal_time_remaining_minutes_int', withdrawal_time_remaining_minutes_int);
+
+			var withdrawal_time_remaining_result="";
+
+			if(withdrawal_time_remaining_days_int>=1){
+				withdrawal_time_remaining_result+=(withdrawal_time_remaining_days_int+"일 ");
+			}
+
+			if(withdrawal_time_remaining_hours_int>=1){
+				withdrawal_time_remaining_result+=(withdrawal_time_remaining_hours_int+"시간 ");
+			}
+				withdrawal_time_remaining_result+=(withdrawal_time_remaining_minutes_int+"분 ");
+
+			console.log('withdrawal_time_remaining_result', withdrawal_time_remaining_result);
+
+
+			res.render('already_withdrawn_account.ejs', { user: req.user, withdrawal_time_remaining: withdrawal_time_remaining_result});
+		}else{
+			res.render('selection.ejs');
+		}
+	});
 
 	// 회원가입 라우터 설정
 	router.route('/signup').post(passport.authenticate('local-signup', {
