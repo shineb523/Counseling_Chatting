@@ -120,8 +120,53 @@
              type: 'get'
          },
 		 {
-             method_file_path: '../routes/route_files/withdrawal_cancel_get',
-             path: '/withdrawal_cancel',
+             method_file_path: '../routes/route_files/already_withdrawn_account_get',
+             path: '/already_withdrawn_account',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/current_password_confirm_failed_changepwd_get',
+             path: '/current_password_confirm_failed_changepwd',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/current_password_confirm_failed_withdrawal_get',
+             path: '/current_password_confirm_failed_withdrawal',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/index_signin_get',
+             path: '/index_signin',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/modify_password_success_get',
+             path: '/modify_password_success',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/modify_password_get',
+             path: '/modify_password',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/my_profile_client_get',
+             path: '/my_profile_client',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/my_profile_counselor_get',
+             path: '/my_profile_counselor',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/withdrawal_cancel_success_get',
+             path: '/withdrawal_cancel_success',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/withdrawal_success_get',
+             path: '/withdrawal_success',
              type: 'get'
          }
 

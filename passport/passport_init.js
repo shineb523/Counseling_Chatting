@@ -48,6 +48,10 @@ module.exports = function(app, router, passport) {
 	}), function(req, res){
 		if(req.user.withdrawal_boolean==true){
 
+            req.session.withdrawal_boolean=true;
+
+            console.log('req.session', req.session);
+
 			var date_now=Date.now();
 
 			var withdrawal_completion_date = (req.user.withdrawal_at).getTime()+1209600000;
@@ -81,7 +85,7 @@ module.exports = function(app, router, passport) {
 
 			res.render('already_withdrawn_account.ejs', { user: req.user, withdrawal_time_remaining: withdrawal_time_remaining_result});
 		}else{
-			res.render('selection.ejs');
+			res.redirect('/selection');
 		}
 	});
 

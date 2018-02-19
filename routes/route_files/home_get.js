@@ -7,17 +7,19 @@ module.exports = function(req, res) {
     if (database.db) {
         console.log('데이터베이스 연결 성공.');
 
-        database.user_account_model.find({}, function(err, results) {
+        database.user_account_model.find({
+            'withdrawal_boolean':true
+        }, function(err, results) {
             console.log('find 함수 요청됨.');
             if (err) {
                 console.log(err);
                 console.log('find 함수 호출 중 오류 발생.');
-                res.render('error.ejs');
+                res.redirect('/error');
                 return;
             }
 
             if (results) {
-                console.log('데이터베이스의 계정 : ');
+                console.log('데이터베이스의 탈퇴 처리중인 계정들 : ');
                 console.dir(results);
 
                 for (var i = 0; i < results.length; i++) {
@@ -31,13 +33,13 @@ module.exports = function(req, res) {
                         console.log('withdrawal_day_diff : ', withdrawal_day_diff);
 
                         if (withdrawal_day_diff >= 14) {
-                            database.user_account_model.deleteOne({}, function(err, resultObj) {
+                            database.user_account_model.deleteOne({ 'id':results[i]._doc.id }, function(err, resultObj) {
                                 if (err) {
                                     console.log('deleteOne 함수 호출 중 오류.');
-                                    return done(err);
+                                    throw err;
+                                    return;
                                 }
 
-                                console.log(resultObj);
                                 console.log('회원탈퇴 2주 경과 데이터베이스 삭제 완료.');
                             });
                         }
@@ -53,11 +55,9 @@ module.exports = function(req, res) {
 
     } else {
         console.log('데이터베이스 연결 실패.');
-        res.render('error.ejs');
+        res.redirect('/error');
         return;
     }
-
-	console.log('req.session : ', req.session);
 
     console.log('req.user의 정보');
     console.dir(req.user);
@@ -65,15 +65,24 @@ module.exports = function(req, res) {
     // 인증 안된 경우
     if (!req.user) {
         console.log('사용자 인증 안된 상태임.');
-        res.render('index_signin.ejs', {
-            login_success: false
-        });
+        res.redirect('/index_signin');
+        return;
     } else {
         console.log('사용자 인증된 상태임.');
-        res.render('selection.ejs', {
-            login_success: true
-        });
+
+        req.session.withdrawal_boolean=false;
+
+        console.log('req.session', req.session);
+
+        if(req.session.withdrawal_boolean==true){
+                res.redirect('/already_withdrawn_account');
+                return;
+        }
+
+        res.redirect('/selection');
+        return;
     }
+
 
 
 }

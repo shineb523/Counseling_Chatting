@@ -11,14 +11,14 @@ module.exports = function(req, res) {
     // 인증 안된 경우
     if (!req.user) {
         console.log('사용자 인증 안된 상태임.');
-        res.render('index_signin.ejs', {
-            login_success: false
-        });
+        res.redirect('/index_signin');
+        return;
+
     } else {
 
         if (!req.session.check_changepwd) {
             console.log('현재 비밀번호 확인되지 않음.');
-            res.render('current_password_confirm_changepwd.ejs');
+            res.redirect('/current_password_confirm_changepwd');
             return;
         }
 
@@ -46,7 +46,7 @@ module.exports = function(req, res) {
             }, function(err, result) {
                 if (err) {
                     console.log('update 함수 사용 중 에러');
-                    res.render('error.ejs');
+                    res.redirect('/error');
                     return;
                 }
                 console.log(result);
@@ -54,11 +54,12 @@ module.exports = function(req, res) {
             });
         } else {
             console.log('데이터베이스 연결 실패.');
-            res.render('error.ejs');
+            res.redirect('/error');
             return;
         }
 
         req.logout();
-        res.render('modify_password_success.ejs');
+        res.redirect('/modify_password_success');
+        return;
     }
 }

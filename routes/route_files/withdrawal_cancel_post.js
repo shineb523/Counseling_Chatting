@@ -9,9 +9,8 @@ module.exports = function(req, res) {
     // 인증 안된 경우
     if (!req.user) {
         console.log('사용자 인증 안된 상태임.');
-        res.render('index_signin.ejs', {
-            login_success: false
-        });
+        res.redirect('/index_signin');
+        return;
     } else {
 
         console.log('사용자 인증된 상태임.');
@@ -30,7 +29,7 @@ module.exports = function(req, res) {
             }, function(err, result) {
                 if (err) {
                     console.log('update 함수 사용 중 에러');
-                    res.render('error.ejs');
+                    res.redirect('/error');
                     return;
                 }
                 console.log(result);
@@ -39,10 +38,11 @@ module.exports = function(req, res) {
 
         } else {
             console.log('데이터베이스 연결 실패.');
-            res.render('error.ejs');
+            res.redirect('/error');
             return;
         }
 
-        res.render('withdrawal_cancel_success.ejs', {user:req.user});
+        res.redirect('/withdrawal_cancel_success');
+        return;
     }
 }

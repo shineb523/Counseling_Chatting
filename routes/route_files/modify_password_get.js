@@ -1,4 +1,4 @@
-// 내 프로필 선택 시, 내 프로필 페이지로 이동.
+// 회원탈퇴 선택 시, 회원탈퇴 사유 제출 페이지로 이동
 module.exports = function(req, res) {
 
     console.log('req.session', req.session);
@@ -8,7 +8,7 @@ module.exports = function(req, res) {
             return;
     }
 
-    console.log('/my_profile 패스 요청됨.');
-    res.render('my_profile.ejs');
+    console.log('/modify_password 패스 요청됨.');
+    res.render('modify_password.ejs');
     return;
 }

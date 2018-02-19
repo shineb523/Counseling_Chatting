@@ -1,4 +1,4 @@
-// 내 프로필 선택 시, 내 프로필 페이지로 이동.
+// 회원탈퇴 선택 시, 비밀번호 확인 페이지로 이동.
 module.exports = function(req, res) {
 
     console.log('req.session', req.session);
@@ -8,7 +8,7 @@ module.exports = function(req, res) {
             return;
     }
 
-    console.log('/my_profile 패스 요청됨.');
-    res.render('my_profile.ejs');
+    console.log('/current_password_confirm_failed_withdrawal 패스 요청됨.');
+    res.render('current_password_confirm_failed_withdrawal.ejs');
     return;
 }
