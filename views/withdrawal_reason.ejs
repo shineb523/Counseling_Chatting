@@ -18,13 +18,14 @@
     2. 탈퇴 사유 데이터 수집
     3. 계정 데이터 데이터베이스에서 삭제(2주동안 재가입 불가)
      -->
-    <form  action="/withdrawal" method="post">
+    <form  id="withdrawal_reason_form" action="/withdrawal" method="post">
         <select name="withdrawal_reason_selected" id="withdrawal_reason_selected">
+            <option value="init"  selected="selected">init</option>
             <option value="a">a</option>
             <option value="b">b</option>
             <option value="c">c</option>
             <option value="d">d</option>
-            <option value="e" selected="selected">e</option>
+            <option value="e">e</option>
         </select>
         <textarea id="withdrawal_reason_text" name="withdrawal_reason_text" rows="8" cols="60"></textarea>
         <input type="submit" value="제출">
@@ -39,10 +40,42 @@
 
 				if(state=="e"){
 					$("#withdrawal_reason_text").show();
+
+                    // 제출 버튼을 눌렀을 때(폼 양식 제출 시에),
+                    $('#withdrawal_reason_form').submit(function() {
+                        // 탈퇴 사유 텍스트의 길이가 10자 미만일 때,
+
+                        console.log('withdrawal_reason_text', $('#withdrawal_reason_text').val().length);
+
+                        if ($('#withdrawal_reason_text').val().length <10) {
+                            // 경고창 출력 후,
+                            alert("회원탈퇴 사유를 10자 이상 적어주세요.");
+                            // 탈퇴 사유 텍스트 입력 input에 포커스를 주고,
+                            $('#withdrawal_reason_text').focus();
+                            // submit(제출)을 취소한다.
+                            return false;
+                        }
+                    });
+
 				}else{
 					$("#withdrawal_reason_text").hide();
 				}
 			});
+
+            // 제출 버튼을 눌렀을 때(폼 양식 제출 시에),
+            $('#withdrawal_reason_form').submit(function() {
+                // init 탭을 선택 후 제출을 했을 시에,
+                if ($('#withdrawal_reason_selected').val() =='init') {
+                    // 경고창 출력 후,
+                    alert("회원 탈퇴 사유를 선택해 주세요.");
+                    // 탈퇴 사유 탭에 포커스를 주고,
+                    $('#withdrawal_reason_selected').focus();
+                    // submit(제출)을 취소한다.
+                    return false;
+                }
+            });
+
+
 		});
 	</script>
 </html>

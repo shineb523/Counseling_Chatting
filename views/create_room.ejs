@@ -1,4 +1,4 @@
-<!-- 상담 방 생성 페이지 -->
+<!-- 상담 상담 방 생성 페이지 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,12 +7,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>방 생성</title>
+    <title>상담 방 생성</title>
 </head>
 
 <body>
-    방 생성 페이지
+    <h1>상담 방 생성</h1>
+
+    <!-- 상담 종류
+    상담자 / 내담자
+    방 생성자 아이디
+    방 제목 -->
+
+    <form  id="create_room_form" action="/create_room" method="post">
+        <select name="counsel_type" id="withdrawal_reason_selected">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+            <option value="d">d</option>
+            <option value="e" selected="selected">e</option>
+        </select>
+        <textarea id="withdrawal_reason_text" name="withdrawal_reason_text" rows="8" cols="60"></textarea>
+        <input type="submit" value="제출">
+    </form>
+
 
 </body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script>
+    (jQuery)(function($) {
 
+    });
+</script>
 </html>
