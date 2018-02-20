@@ -9,6 +9,6 @@ module.exports = function(req, res) {
     }
 
     console.log('/create_room 패스 요청됨.');
-    res.render('create_room.ejs');
+    res.render('create_room.ejs', { user:req.user });
     return;
 }
