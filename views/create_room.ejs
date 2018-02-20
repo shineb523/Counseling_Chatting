@@ -19,14 +19,14 @@
     방 제목 -->
 
     <form  id="create_room_form" action="/create_room" method="post">
-        <select name="counsel_type" id="withdrawal_reason_selected">
+        <select name="counsel_type" >
             <option value="a">a</option>
             <option value="b">b</option>
             <option value="c">c</option>
             <option value="d">d</option>
             <option value="e" selected="selected">e</option>
         </select>
-        <textarea id="withdrawal_reason_text" name="withdrawal_reason_text" rows="8" cols="60"></textarea>
+        <textarea id="withdrawal_reason_text" name="withdrawal_reason_text" rows="8" cols="60" style="display:none"></textarea>
         <input type="submit" value="제출">
     </form>
 
@@ -35,7 +35,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script>
     (jQuery)(function($) {
-
+        
     });
 </script>
 </html>

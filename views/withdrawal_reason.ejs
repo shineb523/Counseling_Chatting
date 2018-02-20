@@ -20,14 +20,13 @@
      -->
     <form  id="withdrawal_reason_form" action="/withdrawal" method="post">
         <select name="withdrawal_reason_selected" id="withdrawal_reason_selected">
-            <option value="init"  selected="selected">init</option>
             <option value="a">a</option>
             <option value="b">b</option>
             <option value="c">c</option>
             <option value="d">d</option>
-            <option value="e">e</option>
+            <option value="e" selected="selected">e</option>
         </select>
-        <textarea id="withdrawal_reason_text" name="withdrawal_reason_text" rows="8" cols="60"></textarea>
+        <textarea id="withdrawal_reason_text" name="withdrawal_reason_text" rows="8" cols="60" ></textarea>
         <input type="submit" value="제출">
     </form>
 
@@ -35,6 +34,7 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script>
 		(jQuery)(function($) {
+
 			$("#withdrawal_reason_selected").change(function(){
 				var state=$("#withdrawal_reason_selected option:selected").val();
 
