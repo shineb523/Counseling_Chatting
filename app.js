@@ -52,6 +52,7 @@ var cors = require('cors');
 // 익스프레스 객체 생성
 var app = express();
 
+app.use(cors());
 
 //===== 뷰 엔진 설정 =====//
 app.set('views', __dirname + '/views');
@@ -85,8 +86,6 @@ app.use(expressSession({
     resave: true,
     saveUninitialized: true
 }));
-
-app.use(cors());
 
 
 //===== Passport 사용 설정 =====//
@@ -154,11 +153,12 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 
 });
 
-var io = socketio.listen(server);
+var io=socketio.listen(server);
 console.log('socket.io 요청을 받아들일 준비가 되었습니다.');
 
-io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function(socket){
     console.log('connection info : ', socket.request.connection._peername);
-    socket.remoteAddress = socket.request.connection._peername.address;
-    socket.remotePort = socket.request.connection._peername.port;
+    socket.remoteAddress-socket.request.connection._peername.address;
+    socket.remotePort=socket.request.connection._peername.port;
+
 });

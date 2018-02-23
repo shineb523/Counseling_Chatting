@@ -50,6 +50,11 @@
              type: 'post'
          },
          {
+             method_file_path: '../routes/route_files/create_room_post',
+             path: '/create_room',
+             type: 'post'
+         },
+         {
              method_file_path: '../routes/route_files/create_room_get',
              path: '/create_room',
              type: 'get'
