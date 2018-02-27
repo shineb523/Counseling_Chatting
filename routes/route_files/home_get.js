@@ -79,7 +79,7 @@ module.exports = function(req, res) {
                 return;
         }
 
-        res.redirect('/selection');
+        res.redirect('/counselors_room_list');
         return;
     }
 

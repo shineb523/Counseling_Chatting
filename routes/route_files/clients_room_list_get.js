@@ -1,4 +1,4 @@
-// 회원탈퇴 선택 시, 회원탈퇴 사유 제출 페이지로 이동
+// 내 프로필 선택 시, 내 프로필 페이지로 이동.
 module.exports = function(req, res) {
 
     // 인증 안된 경우
@@ -15,7 +15,7 @@ module.exports = function(req, res) {
             return;
     }
 
-    console.log('/my_profile_client 패스 요청됨.');
-    res.render('my_profile_client.ejs');
+    console.log('/clients_room_list 패스 요청됨.');
+    res.render('clients_room_list.ejs');
     return;
 }

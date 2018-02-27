@@ -55,11 +55,6 @@
              type: 'post'
          },
          {
-             method_file_path: '../routes/route_files/create_room_get',
-             path: '/create_room',
-             type: 'get'
-         },
-         {
              method_file_path: '../routes/route_files/current_password_confirm_changepwd_get',
              path: '/current_password_confirm_changepwd',
              type: 'get'
@@ -82,21 +77,6 @@
          {
              method_file_path: '../routes/route_files/logout_get',
              path: '/logout',
-             type: 'get'
-         },
-         {
-             method_file_path: '../routes/route_files/my_profile_get',
-             path: '/my_profile',
-             type: 'get'
-         },
-         {
-             method_file_path: '../routes/route_files/room_list_get',
-             path: '/room_list',
-             type: 'get'
-         },
-         {
-             method_file_path: '../routes/route_files/selection_get',
-             path: '/selection',
              type: 'get'
          },
          {
@@ -172,6 +152,16 @@
          {
              method_file_path: '../routes/route_files/withdrawal_success_get',
              path: '/withdrawal_success',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/counselors_room_list_get',
+             path: '/counselors_room_list',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/clients_room_list_get',
+             path: '/clients_room_list',
              type: 'get'
          }
 

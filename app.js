@@ -153,6 +153,8 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 
 });
 
+
+
 var io=socketio.listen(server);
 console.log('socket.io 요청을 받아들일 준비가 되었습니다.');
 
@@ -160,5 +162,25 @@ io.sockets.on('connection', function(socket){
     console.log('connection info : ', socket.request.connection._peername);
     socket.remoteAddress-socket.request.connection._peername.address;
     socket.remotePort=socket.request.connection._peername.port;
+
+    socket.on('room', function(room){
+        console.log('room 이벤트를 받았습니다.');
+        console.dir(room);
+
+        if(room.command=='create'){
+            if(io.sockets.adapter.rooms[room.room_creator_id]){
+                console.log('해당 아이디로 이미 방이 만들어져 있습니다.');
+            }else{
+                console.log('방을 새로 만듭니다.');
+
+                socket.join(room.room_creator_id);
+
+                var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
+                curRoom.room_creator_id=room.room_creator_id;
+                curRoom.room_creator_type=room.room_creator_type;
+                curRoom.room_title=room.room_title;
+            }
+        }
+    });
 
 });
