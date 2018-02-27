@@ -163,6 +163,11 @@
              method_file_path: '../routes/route_files/clients_room_list_get',
              path: '/clients_room_list',
              type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/create_room_get',
+             path: '/create_room',
+             type: 'get'
          }
 
      ],

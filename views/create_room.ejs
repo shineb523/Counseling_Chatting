@@ -22,6 +22,7 @@
 
     <form  id="create_room_form" action="/create_room" method="post">
 
+
         상담 타입
         <select id="counsel_type" name="counsel_type" >
             <option value="a" selected="selected">a</option>
@@ -44,7 +45,7 @@
         방 제목
         <input id="room_title" name="room_title" type="text">
 
-        <button id="submit_button" type="button">상담 방 생성</button>
+        <input type="submit" value="방 생성">
 
     </form>
 
@@ -54,37 +55,6 @@
 <script>
     (jQuery)(function($) {
 
-        $('#submit_button').on('click', function(event){
-            var host='localhost';
-            var port='3000';
-            var url='http://'+host+':'+port;
-            var options={'forceNew':true};
-            var socket=io.connect(url, options);
-
-            socket.on('connect', function(){
-                console.log('웹 소켓 서버에 연결되었습니다. : '+url);
-            });
-
-            socket.on('disconnect', function(){
-                console.log('웹 소켓 연결이 종료되었습니다.');
-            });
-
-            var room_creator_id_tmp=$('#creator_id').text();
-            var room_creator_type_tmp=$('#room_creator_type option:selected').val();
-            var room_title_tmp=$('#room_title').val();
-
-            var output = {command:'create', room_creator_id:room_creator_id_tmp,
-                            room_creator_type:room_creator_type_tmp, room_title:room_title_tmp};
-
-            console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
-
-            if(socket==undefined){
-                alert('서버에 연결되어 있지 않습니다. 먼저 서버에 연결하세요.');
-                return;
-            }
-
-            socket.emit('room', output);
-        });
 
     });
 </script>

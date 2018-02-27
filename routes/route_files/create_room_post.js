@@ -17,6 +17,14 @@ module.exports = function(req, res) {
 
     console.log('/create_room 패스 요청됨.');
 
-    res.render('chatting_room.ejs');
+    var id_tmp = req.user.id;
+    var room_title_tmp = req.body.room_title;
+    var counsel_type_tmp = req.body.counsel_type;
+    var room_creator_type_tmp = req.body.room_creator_type;
+
+    var create_room_data_tmp={ id:id_tmp, room_title:room_title_tmp, counsel_type:counsel_type_tmp,
+                                room_creator_type:room_creator_type_tmp };
+
+    res.render('chatting_room.ejs', {create_room_data:create_room_data_tmp});
     return;
 }
