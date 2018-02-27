@@ -85,7 +85,7 @@ module.exports = function(app, router, passport) {
 
 			res.render('already_withdrawn_account.ejs', { user: req.user, withdrawal_time_remaining: withdrawal_time_remaining_result});
 		}else{
-			res.redirect('/selection');
+			res.redirect('/counselors_room_list');
 		}
 	});
 
