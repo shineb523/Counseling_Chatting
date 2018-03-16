@@ -12,6 +12,20 @@
 
 <body>
     상담 채팅 방
+    <br>
+    ID :
+    <input type="text" value="<%= create_room_data.id %>" readonly>
+    <br>
+    방 생성자 타입 :
+    <input type="text" value="<%= create_room_data.room_creator_type %>" >
+    <br>
+    제목 :
+    <input type="text" value="<%= create_room_data.room_title %>">
+    <br>
+    상담 타입:
+    <input type="text" value="<%= create_room_data.counsel_type %>">
+    <br>
+
 
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -32,7 +46,7 @@
         socket.on('disconnect', function(){
             console.log('웹 소켓 연결이 종료되었습니다.');
         });
-        
+
 
         var output = {command:'create', room_creator_id:'<%= create_room_data.id %>', room_title:'<%= create_room_data.room_title %>',
                         counsel_type:'<%= create_room_data.counsel_type %>', room_creator_type:'<%= create_room_data.room_creator_type %>'};

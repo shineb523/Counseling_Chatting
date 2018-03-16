@@ -158,8 +158,12 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 var io=socketio.listen(server);
 console.log('socket.io 요청을 받아들일 준비가 되었습니다.');
 
+
+// 클라이언트가 연결했을 때의 이벤트 처리
 io.sockets.on('connection', function(socket){
     console.log('connection info : ', socket.request.connection._peername);
+
+    // 소켓 객체에 클라이언트 Host, Port 정보 속성으로 추가
     socket.remoteAddress=socket.request.connection._peername.address;
     socket.remotePort=socket.request.connection._peername.port;
 
@@ -167,9 +171,10 @@ io.sockets.on('connection', function(socket){
         console.log('room 이벤트를 받았습니다.');
         console.dir(room);
 
-        if(room.command=='create'){
+        if(room.command == 'create'){
             if(io.sockets.adapter.rooms[room.room_creator_id]){
                 console.log('해당 아이디로 이미 방이 만들어져 있습니다.');
+
                 getRoomList();
 
             }else{
@@ -181,8 +186,38 @@ io.sockets.on('connection', function(socket){
                 curRoom.room_creator_id=room.room_creator_id;
                 curRoom.room_creator_type=room.room_creator_type;
                 curRoom.room_title=room.room_title;
+
                 getRoomList();
             }
+        }else if(room.command == 'update'){
+
+            var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
+            curRoom.room_creator_id=room.room_creator_id;
+            curRoom.room_creator_type=room.room_creator_type;
+            curRoom.room_title=room.room_title;
+
+        }else if(room.command == 'delete'){
+
+            socket.leave(room.roomId);
+
+            if (io.sockets.adapter.rooms[room.room_creator_id]) { // 방이  만들어져 있는 경우
+            	delete io.sockets.adapter.rooms[room.room_creator_id];
+            } else {  // 방이  만들어져 있지 않은 경우
+            	console.log('방이 만들어져 있지 않습니다.');
+
+            }
+        } else if (room.command === 'join') {  // 방에 입장하기 요청
+
+            socket.join(room.room_creator_id);
+
+            // 응답 메시지 전송
+            sendResponse(socket, 'room', '200', '방에 입장했습니다.');
+        } else if (room.command === 'leave') {  // 방 나가기 요청
+
+            socket.leave(room.room_creator_id);
+
+            // 응답 메시지 전송
+            sendResponse(socket, 'room', '200', '방에서 나갔습니다.');
         }
     });
 
@@ -217,8 +252,9 @@ function getRoomList() {
         }
     });
 
-    console.log('[ROOM LIST]');
+    console.log('\n\n====================[ROOM LIST]====================\n');
     console.dir(roomList);
+    console.log('\n===================================================\n\n');
 }
 
 // 응답 메시지 전송 메소드
