@@ -186,6 +186,7 @@ io.sockets.on('connection', function(socket){
                 curRoom.room_creator_id=room.room_creator_id;
                 curRoom.room_creator_type=room.room_creator_type;
                 curRoom.room_title=room.room_title;
+                curRoom.joining_ids=[]
 
                 getRoomList();
             }
@@ -202,9 +203,11 @@ io.sockets.on('connection', function(socket){
 
             if (io.sockets.adapter.rooms[room.room_creator_id]) { // 방이  만들어져 있는 경우
             	delete io.sockets.adapter.rooms[room.room_creator_id];
+                console.log('방을 삭제했습니다.');
+                getRoomList();
             } else {  // 방이  만들어져 있지 않은 경우
             	console.log('방이 만들어져 있지 않습니다.');
-
+                getRoomList();
             }
         } else if (room.command === 'join') {  // 방에 입장하기 요청
 
