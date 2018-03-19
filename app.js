@@ -186,7 +186,7 @@ io.sockets.on('connection', function(socket){
                 curRoom.room_creator_id=room.room_creator_id;
                 curRoom.room_creator_type=room.room_creator_type;
                 curRoom.room_title=room.room_title;
-                curRoom.joining_ids=[]
+                curRoom.joining_ids=[];
 
                 getRoomList();
             }
@@ -198,8 +198,6 @@ io.sockets.on('connection', function(socket){
             curRoom.room_title=room.room_title;
 
         }else if(room.command == 'delete'){
-
-            socket.leave(room.roomId);
 
             if (io.sockets.adapter.rooms[room.room_creator_id]) { // 방이  만들어져 있는 경우
             	delete io.sockets.adapter.rooms[room.room_creator_id];
@@ -228,24 +226,24 @@ io.sockets.on('connection', function(socket){
 
 function getRoomList() {
 
-	console.dir(io.sockets.adapter.rooms);
+	// console.dir(io.sockets.adapter.rooms);
 
     var roomList = [];
 
     Object.keys(io.sockets.adapter.rooms).forEach(function(roomId) { // for each room
-    	console.log('current room id : ' + roomId);
+    	// console.log('current room id : ' + roomId);
     	var outRoom = io.sockets.adapter.rooms[roomId];
 
-        console.log('io.sockets.adapter.rooms[roomId]', outRoom);
+        // console.log('io.sockets.adapter.rooms[roomId]', outRoom);
     	// find default room using all attributes
     	var foundDefault = false;
     	var index = 0;
         Object.keys(outRoom.sockets).forEach(function(key) {
-        	console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
+        	// console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
 
         	if (roomId == key) {  // default room
         		foundDefault = true;
-        		console.log('* this is default room. *');
+        		// console.log('* this is default room. *');
         	}
         	index++;
         });

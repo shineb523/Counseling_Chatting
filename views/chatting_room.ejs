@@ -63,7 +63,7 @@
 
         $('#delete_room_button').on('click', function(){
 
-            var output = {command:'delete'};
+            var output = {command:'delete', room_creator_id:'<%= create_room_data.id %>'};
 
             console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
 
