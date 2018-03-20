@@ -15,6 +15,9 @@ module.exports = function(req, res) {
             return;
     }
 
+
+
+
     console.log('/create_room 패스 요청됨.');
 
     var id_tmp = req.user.id;

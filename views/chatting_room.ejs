@@ -73,6 +73,20 @@
             }
 
             socket.emit('room', output);
+
+            if('<%= create_room_data.room_creator_type %>'=='counselor'){
+
+                console.log('room_creator_type : counselor');
+                location.href="/counselors_room_list";
+
+            }else if('<%= create_room_data.room_creator_type %>'=='client'){
+
+                console.log('room_creator_type : client');
+                location.href="/clients_room_list";
+
+            }
+
+
         });
 
 });

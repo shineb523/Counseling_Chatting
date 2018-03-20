@@ -168,6 +168,16 @@
              method_file_path: '../routes/route_files/create_room_get',
              path: '/create_room',
              type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/_get',
+             path: '/',
+             type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/_get',
+             path: '/',
+             type: 'get'
          }
 
      ],
