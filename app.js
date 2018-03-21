@@ -222,6 +222,83 @@ io.sockets.on('connection', function(socket){
         }
     });
 
+    socket.on('request_room_list_counselor', function(){
+        console.log('received request_room_list event.');
+
+        // console.dir(io.sockets.adapter.rooms);
+
+        var roomList = [];
+
+        Object.keys(io.sockets.adapter.rooms).forEach(function(roomId) { // for each room
+        	// console.log('current room id : ' + roomId);
+        	var outRoom = io.sockets.adapter.rooms[roomId];
+
+            // console.log('io.sockets.adapter.rooms[roomId]', outRoom);
+        	// find default room using all attributes
+        	var foundExcept = false;
+
+            if(outRoom['room_creator_type']=='client'){
+                foundExcept = true;
+            }
+
+
+            Object.keys(outRoom.sockets).forEach(function(key) {
+            	// console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
+
+            	if (roomId == key ) {  // default room
+            		foundExcept = true;
+            		// console.log('* this is default room. *');
+            	}
+
+            });
+
+            if (!foundExcept) {
+            	roomList.push(outRoom);
+            }
+        });
+
+        socket.emit('room_list_counselor', roomList);
+    });
+
+
+    socket.on('request_room_list_client', function(){
+        console.log('received request_room_list event.');
+
+        // console.dir(io.sockets.adapter.rooms);
+
+        var roomList = [];
+
+        Object.keys(io.sockets.adapter.rooms).forEach(function(roomId) { // for each room
+        	// console.log('current room id : ' + roomId);
+        	var outRoom = io.sockets.adapter.rooms[roomId];
+
+            // console.log('io.sockets.adapter.rooms[roomId]', outRoom);
+        	// find default room using all attributes
+        	var foundExcept = false;
+
+            if(outRoom['room_creator_type']=='counselor'){
+                foundExcept = true;
+            }
+
+
+            Object.keys(outRoom.sockets).forEach(function(key) {
+            	// console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
+
+            	if (roomId == key ) {  // default room
+            		foundExcept = true;
+            		// console.log('* this is default room. *');
+            	}
+
+            });
+
+            if (!foundExcept) {
+            	roomList.push(outRoom);
+            }
+        });
+
+        socket.emit('room_list_client', roomList);
+    });
+
 });
 
 function getRoomList() {
@@ -237,7 +314,7 @@ function getRoomList() {
         // console.log('io.sockets.adapter.rooms[roomId]', outRoom);
     	// find default room using all attributes
     	var foundDefault = false;
-    	var index = 0;
+
         Object.keys(outRoom.sockets).forEach(function(key) {
         	// console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
 
@@ -245,7 +322,7 @@ function getRoomList() {
         		foundDefault = true;
         		// console.log('* this is default room. *');
         	}
-        	index++;
+
         });
 
         if (!foundDefault) {
