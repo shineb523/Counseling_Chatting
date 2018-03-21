@@ -54,8 +54,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script>
     (jQuery)(function($) {
-
-
+        $('#create_room_form').submit(function(){
+            if($('#room_title').val().length<10){
+                alert('제목을 10자 이상 입력해 주세요');
+                $('#room_title').focus();
+                return false;
+            }
+        });
     });
 </script>
 </html>

@@ -21,6 +21,13 @@
              specified_collection_name: 'withdrawal_reasons',
              schemaName: 'user_withdrawal_reason_schema',
              modelName: 'user_withdrawal_reason_model'
+         },
+         {
+             file: './room_list_schema',
+             collection: 'room_list',
+             specified_collection_name: 'room_list',
+             schemaName: 'room_list_schema',
+             modelName: 'room_list_model'
          }
      ],
 
@@ -167,16 +174,6 @@
          {
              method_file_path: '../routes/route_files/create_room_get',
              path: '/create_room',
-             type: 'get'
-         },
-         {
-             method_file_path: '../routes/route_files/_get',
-             path: '/',
-             type: 'get'
-         },
-         {
-             method_file_path: '../routes/route_files/_get',
-             path: '/',
              type: 'get'
          }
 
