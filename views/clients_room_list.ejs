@@ -21,6 +21,8 @@
 
     <hr>
 
+    <div id="room_list_div"></div>
+
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
@@ -45,11 +47,19 @@
 
         socket.emit('request_room_list_client');
 
-
         socket.on('room_list_client', function(roomList){
             console.log('received room list of clients successfully.');
-            console.log(roomList);
 
+            var room_list_string='';
+
+
+            for(var i=0;i<roomList.length;i++){
+                room_list_string = room_list_string + (roomList[i])['room_creator_id'] + '\n';
+            }
+
+            console.log(room_list_string);
+
+            $('#room_list_div').append(room_list_string);
         });
 
 

@@ -5,31 +5,55 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Test</title>
+	<style>
+        table, tr, td, th{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        td{}
+    </style>
 </head>
 <body>
-	<div id="test"></div>
+	<table id="room_list_table">
+	    <tr>
+	        <td>1st room</td>
+	        <td>2nd room</td>
+	        <td>3rd room</td>
+	        <td>4th room</td>
+	    </tr>
+	    <tr>
+	        <td>5th room</td>
+	        <td>6th room</td>
+	        <td>7th room</td>
+	        <td>8th room</td>
+	    </tr>
+	    <tr>
+	        <td>9th room</td>
+	        <td>10th room</td>
+	        <td>11th room</td>
+	        <td>12th room</td>
+	    </tr>
+	    <tr>
+	        <td>13th room</td>
+	        <td>14th room</td>
+	        <td>15th room</td>
+	        <td>16th room</td>
+	    </tr>
+	</table>
+	<table id="room_table_button">
+	    <tr>
+	        <td><button>prev</button></td>
+	        <td><p id="page_num">0</p></td>
+	        <td><button>next</button></td>
+	    </tr>
+	</table>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 <script>
 	(jQuery)(function($) {
-		var date_now=Date.now();
+        
+        
 
-		var withdrawal_completion_date = 1518622500000+1209600000;
-		console.log('withdrawal_completion_date', withdrawal_completion_date);
-
-		var withdrawal_time_remaining_days = (withdrawal_completion_date - date_now) / 1000 / 60 / 60 / 24;
-		var withdrawal_time_remaining_days_int = parseInt(withdrawal_time_remaining_days);
-		console.log('withdrawal_time_remaining_days', withdrawal_time_remaining_days);
-
-		var withdrawal_time_remaining_hours = (withdrawal_completion_date - date_now - withdrawal_time_remaining_days_int*1000*60*60*24) / 1000 / 60 / 60 ;
-		var withdrawal_time_remaining_hours_int = parseInt(withdrawal_time_remaining_hours);
-		console.log('withdrawal_time_remaining_hours', withdrawal_time_remaining_hours);
-
-		var withdrawal_time_remaining_minutes = (withdrawal_completion_date - date_now - withdrawal_time_remaining_days_int*1000*60*60*24 - withdrawal_time_remaining_hours_int*1000*60*60) / 1000 / 60 ;
-		var withdrawal_time_remaining_minutes_int = parseInt(withdrawal_time_remaining_minutes);
-		console.log('withdrawal_time_remaining_minutes', withdrawal_time_remaining_minutes);
-
-		$("#test").text(withdrawal_time_remaining_minutes_int);
 	});
 </script>
 </html>

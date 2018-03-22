@@ -9,7 +9,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>상담자 방 목록</title>
 </head>
-
+<style>
+    table, tr, td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
 <body>
     <!-- 상담자 방 목록 -->
     상담자 방 목록
@@ -20,6 +25,17 @@
     <a href="/my_profile_counselor">내 프로필</a>
 
     <hr>
+
+    <table id="room_table">
+
+    </table>
+	<table id="room_table_button">
+	    <tr>
+	        <td><button>prev</button></td>
+	        <td><p id="page_num">0</p></td>
+	        <td><button>next</button></td>
+	    </tr>
+	</table>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -48,7 +64,28 @@
 
         socket.on('room_list_counselor', function(roomList){
             console.log('received room list of counselors successfully.');
-            console.log(roomList);
+
+            var table_making_string='';
+
+            for(var i=0;i<roomList.length;i++){
+
+                if(i%4==0){
+                    table_making_string+='<tr>';
+                }
+
+                table_making_string+='<td>'+(roomList[i])['room_creator_id']+'</td>';
+
+                if (i%4==3) {
+                    table_making_string+='</tr>';
+                }
+
+                if(((i%4)!=3)&&(i==(roomList.length-1))){
+                    table_making_string+='</tr>';
+                }
+
+            }
+            console.log('table_making_string : ', table_making_string);
+            $('#room_table').append(table_making_string);
 
         });
 
