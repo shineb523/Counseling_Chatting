@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>상담자 방 목록</title>
+    <style>
+        table, tr, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
-<style>
-    table, tr, td{
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-</style>
 <body>
     <!-- 상담자 방 목록 -->
     상담자 방 목록
@@ -73,7 +73,13 @@
                     table_making_string+='<tr>';
                 }
 
-                table_making_string+='<td>'+(roomList[i])['room_creator_id']+'</td>';
+                table_making_string+='<td><a href=\"'
+                +'\">'
+                +(roomList[i])['room_title']+'</br>'
+                +(roomList[i])['counsel_type']+' '
+                +'상담자</br>'
+                +(roomList[i])['room_creator_id']+'</br>'
+                +'</a></td>';
 
                 if (i%4==3) {
                     table_making_string+='</tr>';

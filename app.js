@@ -186,6 +186,7 @@ io.sockets.on('connection', function(socket){
                 curRoom.room_creator_id=room.room_creator_id;
                 curRoom.room_creator_type=room.room_creator_type;
                 curRoom.room_title=room.room_title;
+                curRoom.counsel_type=room.counsel_type;
                 curRoom.joining_ids=[];
 
                 getRoomList();
@@ -257,6 +258,10 @@ io.sockets.on('connection', function(socket){
             }
         });
 
+        console.log('\n\n====================[ROOM LIST]====================\n');
+        console.dir(roomList);
+        console.log('\n===================================================\n\n');
+
         socket.emit('room_list_counselor', roomList);
     });
 
@@ -295,6 +300,10 @@ io.sockets.on('connection', function(socket){
             	roomList.push(outRoom);
             }
         });
+
+        console.log('\n\n====================[ROOM LIST]====================\n');
+        console.dir(roomList);
+        console.log('\n===================================================\n\n');
 
         socket.emit('room_list_client', roomList);
     });
