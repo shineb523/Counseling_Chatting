@@ -19,7 +19,7 @@
         <div>
             <label for="user_id">ID</label>
             <input id="user_id" type="text" name="userid">
-            <strong id="id_required">알파벳, 숫자, 5~15자</strong>
+            <strong id="id_required">알파벳, 숫자, 5~12자</strong>
         </div>
         <div>
             <label for="user_password">PASSWORD</label>
@@ -53,7 +53,7 @@
             var overlap_check;
 
             // 아이디 검사 정규표현식
-            var id_pattern = /^(?=.*[a-zA-Z])(?=.*[0-9])([a-zA-z0-9]{5,15})$/;
+            var id_pattern = /^(?=.*[a-zA-Z])(?=.*[0-9])([a-zA-z0-9]{5,12})$/;
             // 비밀번호 검사 정규표현식
             var password_pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\\\|\[\{\]\}\;\:\'\"\,\<\.\>\/\?])([a-zA-Z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\\\|\[\{\]\}\;\:\'\"\,\<\.\>\/\?]{10,16})$/;
 
@@ -62,7 +62,7 @@
             // 아이디 숫자 존재 검사 정규표현식
             var id_digit_pattern = /[0-9]+/;
             // 아이디 길이 검사 정규표현식
-            var id_length_pattern = /[a-zA-z0-9]{5,15}/;
+            var id_length_pattern = /[a-zA-z0-9]{5,12}/;
 
             // 비밀번호 소문자 존재 검사 정규표현식
             var password_lower_case_alphabet_pattern = /[a-z]+/;

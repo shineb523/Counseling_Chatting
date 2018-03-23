@@ -60,7 +60,15 @@
                 $('#room_title').focus();
                 return false;
             }
+
+            if($('#room_title').val().length>20){
+                alert('제목을 20자 이하로 입력해 주세요');
+                $('#room_title').focus();
+                return false;
+            }
         });
+
+
     });
 </script>
 </html>

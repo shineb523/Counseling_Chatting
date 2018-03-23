@@ -69,13 +69,21 @@
 
             for(var i=0;i<roomList.length;i++){
 
+                var room_list_title;
+
+                if(((roomList[i])['room_title']).length>12){
+                    room_list_title = (roomList[i])['room_title'].substr(0, 12);
+                    room_list_title+='...';
+                    console.log('room_list_title : ', room_list_title);
+                }
+
                 if(i%4==0){
                     table_making_string+='<tr>';
                 }
 
                 table_making_string+='<td><a href=\"'
                 +'\">'
-                +(roomList[i])['room_title']+'</br>'
+                +room_list_title+'</br>'
                 +(roomList[i])['counsel_type']+' '
                 +'상담자</br>'
                 +(roomList[i])['room_creator_id']+'</br>'
