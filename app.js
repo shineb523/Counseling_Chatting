@@ -187,6 +187,7 @@ io.sockets.on('connection', function(socket){
                 curRoom.room_creator_type=room.room_creator_type;
                 curRoom.room_title=room.room_title;
                 curRoom.counsel_type=room.counsel_type;
+                curRoom.created_time=Date.now();
                 curRoom.joining_ids=[];
 
                 getRoomList();

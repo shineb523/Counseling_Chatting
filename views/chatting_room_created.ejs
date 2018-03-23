@@ -17,13 +17,13 @@
     <input type="text" value="<%= create_room_data.id %>" readonly>
     <br>
     방 생성자 타입:
-    <input type="text" value="<%= create_room_data.room_creator_type %>">
+    <input type="text" value="<%= create_room_data.room_creator_type %>" readonly>
     <br>
     제목 :
-    <input type="text" value="<%= create_room_data.room_title %>">
+    <input type="text" value="<%= create_room_data.room_title %>" readonly>
     <br>
     상담 타입:
-    <input type="text" value="<%= create_room_data.counsel_type %>">
+    <input type="text" value="<%= create_room_data.counsel_type %>"readonly>
     <br>
     <button id="delete_room_button">나가기</button>
 
@@ -63,7 +63,7 @@
 
         $('#delete_room_button').on('click', function(){
 
-            var output = {command:'delete', room_creator_id:'<%= create_room_data.id %>'};
+            var output = {command:'delete', selected_room_creator_id:'<%= create_room_data.id %>'};
 
             console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
 

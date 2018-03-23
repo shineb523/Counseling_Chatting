@@ -40,6 +40,7 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script src="../public/cryptojs/aes.js"></script>
 <script>
 (jQuery)(function($) {
 
@@ -81,7 +82,15 @@
                     table_making_string+='<tr>';
                 }
 
+                var room_url = '/chatting_room_joined?'+(roomList[i])['room_creator_id'];
+                console.log('room_url : ', room_url);
+                var secret_key = String((roomList[i])['created_time']);
+                var encrypted_url = String(CryptoJS.AES.encrypt(room_url, secret_key));
+                console.log('encrypted_url : ', encrypted_url);
+
+
                 table_making_string+='<td><a href=\"'
+                +encrypted_url
                 +'\">'
                 +room_list_title+'</br>'
                 +(roomList[i])['counsel_type']+' '

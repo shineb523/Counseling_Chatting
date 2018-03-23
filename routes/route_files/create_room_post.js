@@ -26,6 +26,6 @@ module.exports = function(req, res) {
     var create_room_data_tmp={ id:id_tmp, room_title:room_title_tmp, counsel_type:counsel_type_tmp,
                                 room_creator_type:room_creator_type_tmp };
 
-    res.render('chatting_room.ejs', {create_room_data:create_room_data_tmp});
+    res.render('chatting_room_created.ejs', {create_room_data:create_room_data_tmp});
     return;
 }
