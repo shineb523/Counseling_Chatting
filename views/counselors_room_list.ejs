@@ -81,7 +81,10 @@
                     table_making_string+='<tr>';
                 }
 
+                var room_url = '/chatting_room_joined?room_creator_id='+(roomList[i])['room_creator_id'];
+
                 table_making_string+='<td><a href=\"'
+                +room_url
                 +'\">'
                 +room_list_title+'</br>'
                 +(roomList[i])['counsel_type']+' '

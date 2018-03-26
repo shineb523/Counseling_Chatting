@@ -14,18 +14,18 @@
     상담 채팅 방
     <br>
     ID :
-    <input type="text" value="<%= create_room_data.id %>" readonly>
+    <input id="input_id" type="text" readonly>
     <br>
     방 생성자 타입:
-    <input type="text" value="<%= create_room_data.room_creator_type %>" readonly>
+    <input id="input_room_creator_type"type="text" readonly>
     <br>
     제목 :
-    <input type="text" value="<%= create_room_data.room_title %>" readonly>
+    <input id="input_room_title" type="text" readonly>
     <br>
     상담 타입:
-    <input type="text" value="<%= create_room_data.counsel_type %>" readonly>
+    <input id="input_counsel_type" type="text" readonly>
     <br>
-    <button id="delete_room_button">방 나가기</button>
+    <button id="leave_room_button">방 나가기</button>
 
 
 </body>
@@ -49,31 +49,34 @@
             console.log('웹 소켓 연결이 종료되었습니다.');
         });
 
-
-
-        var url = location.href;
-        var decrypted_url = CryptoJS.AES.decrypt()
-
-        .split('?');
-        console.log('url : ', url);
-        var data = url[1];
-
-
-
-        var output = {command:'join', selected_room_creator_id:};
+        var output = { command:'check', room_creator_id:'<%= srci %>' };
 
         console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
+
+        socket.emit('room', output);
+
+        socket.on('room_info', function(room_info){
+            $('#input_id').val('<%= srci %>');
+            $('#input_room_creator_type').val(String(room_info['room_creator_type']));
+            $('#input_room_title').val(String(room_info['room_title']));
+            $('#input_counsel_type').val(String(room_info['counsel_type']));
+        });
+
+
+        var join_output = {command:'join', selected_room_creator_id:'<%= srci %>'};
+
+        console.log('서버로 보낼 데이터 : ' + JSON.stringify(join_output));
 
         if(socket==undefined){
             alert('서버에 연결되어 있지 않습니다. 먼저 서버에 연결하세요.');
             return;
         }
 
-        socket.emit('room', output);
+        socket.emit('room', join_output);
 
-        $('#delete_room_button').on('click', function(){
+        $('#leave_room_button').on('click', function(){
 
-            var output = {command:'delete', room_creator_id:'<%= create_room_data.id %>'};
+            var output = {command:'leave', room_creator_id:'<%= srci %>'};
 
             console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
 
@@ -84,17 +87,19 @@
 
             socket.emit('room', output);
 
-            if('<%= create_room_data.room_creator_type %>'=='counselor'){
+            socket.on('leave_redirect', function(leave_room_info){
+                if(String(leave_room_info)=='counselor'){
 
-                console.log('room_creator_type : counselor');
-                location.href="/counselors_room_list";
+                    console.log('room_creator_type : ', String(leave_room_info));
+                    location.href="/counselors_room_list";
 
-            }else if('<%= create_room_data.room_creator_type %>'=='client'){
+                }else if(String(leave_room_info)=='client'){
 
-                console.log('room_creator_type : client');
-                location.href="/clients_room_list";
+                    console.log('room_creator_type : ',  String(leave_room_info));
+                    location.href="/clients_room_list";
 
-            }
+                }
+            });
 
 
         });

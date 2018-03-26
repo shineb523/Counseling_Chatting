@@ -168,6 +168,11 @@
              method_file_path: '../routes/route_files/create_room_get',
              path: '/create_room',
              type: 'get'
+         },
+         {
+             method_file_path: '../routes/route_files/join_chatting_room_get',
+             path: '/chatting_room_joined',
+             type: 'get'
          }
 
      ],

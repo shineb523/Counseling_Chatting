@@ -187,11 +187,18 @@ io.sockets.on('connection', function(socket){
                 curRoom.room_creator_type=room.room_creator_type;
                 curRoom.room_title=room.room_title;
                 curRoom.counsel_type=room.counsel_type;
-                curRoom.created_time=Date.now();
                 curRoom.joining_ids=[];
 
                 getRoomList();
             }
+        }else if(room.command == 'check'){
+            console.log('접속한 방의 정보를 조회합니다.');
+
+            var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
+            var room_info_obj={ room_creator_type:curRoom.room_creator_type, room_title:curRoom.room_title,
+            counsel_type:curRoom.counsel_type };
+            socket.emit('room_info', room_info_obj);
+
         }else if(room.command == 'update'){
 
             var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
@@ -213,11 +220,19 @@ io.sockets.on('connection', function(socket){
 
             socket.join(room.room_creator_id);
 
+            getRoomList();
+
             // 응답 메시지 전송
             sendResponse(socket, 'room', '200', '방에 입장했습니다.');
+
         } else if (room.command === 'leave') {  // 방 나가기 요청
 
             socket.leave(room.room_creator_id);
+            var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
+            var room_creator_type = curRoom.room_creator_type;
+            socket.emit('leave_redirect', String(room_creator_type));
+
+            getRoomList();
 
             // 응답 메시지 전송
             sendResponse(socket, 'room', '200', '방에서 나갔습니다.');

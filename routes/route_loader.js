@@ -27,8 +27,6 @@ module.exports = function initRoutes(app, router) {
             router.route(curItem.path).get(cur_method);
         } else if (curItem.type == 'post') {
             router.route(curItem.path).post(cur_method);
-        } else if (curItem.type == 'passportpost'){
-            router.route(curItem.path).post(cur_method);
         } else {
 			console.log('route_loader에서 type 예외 오류 발생.');
             return;
