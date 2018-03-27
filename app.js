@@ -187,7 +187,8 @@ io.sockets.on('connection', function(socket){
                 curRoom.room_creator_type=room.room_creator_type;
                 curRoom.room_title=room.room_title;
                 curRoom.counsel_type=room.counsel_type;
-                curRoom.joining_ids=[];
+                curRoom.max_number_of_joining_ids=2;
+                curRoom.joining_ids=[room.room_creator_id];
 
                 getRoomList();
             }
@@ -218,17 +219,34 @@ io.sockets.on('connection', function(socket){
             }
         } else if (room.command === 'join') {  // 방에 입장하기 요청
 
-            socket.join(room.room_creator_id);
+            console.log('room.selected_room_creator_id : ', room.selected_room_creator_id);
 
-            getRoomList();
+            var curRoom=io.sockets.adapter.rooms[room.selected_room_creator_id];
 
-            // 응답 메시지 전송
-            sendResponse(socket, 'room', '200', '방에 입장했습니다.');
+            if((curRoom.joining_ids).length == curRoom.max_number_of_joining_ids){
+                socket.emit('join_err_full');
+            }else if((curRoom.joining_ids).indexOf(room.joining_id) != -1){
+                // when joining_id already exists in selected chatting room.
+                socket.emit('join_err_already_exist');
+            }else{
+                // when joining_id doesn't exists in selected chatting room.
+                socket.join(room.selected_room_creator_id);
+
+                (curRoom.joining_ids).push(room.joining_id);
+
+                console.log('joining_ids : ', curRoom.joining_ids);
+
+                getRoomList();
+
+                // 응답 메시지 전송
+                sendResponse(socket, 'room', '200', '방에 입장했습니다.');
+            }
 
         } else if (room.command === 'leave') {  // 방 나가기 요청
 
             socket.leave(room.room_creator_id);
             var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
+            (curRoom.joining_ids).splice(((curRoom.joining_ids).indexOf(room.joining_id)),1);
             var room_creator_type = curRoom.room_creator_type;
             socket.emit('leave_redirect', String(room_creator_type));
 
@@ -242,7 +260,7 @@ io.sockets.on('connection', function(socket){
     socket.on('request_room_list_counselor', function(){
         console.log('received request_room_list event.');
 
-        // console.dir(io.sockets.adapter.rooms);
+        console.dir(io.sockets.adapter.rooms);
 
         var roomList = [];
 
@@ -285,7 +303,7 @@ io.sockets.on('connection', function(socket){
     socket.on('request_room_list_client', function(){
         console.log('received request_room_list event.');
 
-        // console.dir(io.sockets.adapter.rooms);
+        console.dir(io.sockets.adapter.rooms);
 
         var roomList = [];
 
@@ -328,7 +346,7 @@ io.sockets.on('connection', function(socket){
 
 function getRoomList() {
 
-	// console.dir(io.sockets.adapter.rooms);
+	console.dir(io.sockets.adapter.rooms);
 
     var roomList = [];
 

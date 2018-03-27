@@ -49,7 +49,8 @@
             console.log('웹 소켓 연결이 종료되었습니다.');
         });
 
-        var output = { command:'check', room_creator_id:'<%= srci %>' };
+
+        var output = { command:'check', room_creator_id:'<%= srci %>', joining_id:'<%= user.id %>' };
 
         console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
 
@@ -63,7 +64,7 @@
         });
 
 
-        var join_output = {command:'join', selected_room_creator_id:'<%= srci %>'};
+        var join_output = {command:'join', selected_room_creator_id:'<%= srci %>', joining_id:'<%= user.id %>'};
 
         console.log('서버로 보낼 데이터 : ' + JSON.stringify(join_output));
 
@@ -74,9 +75,19 @@
 
         socket.emit('room', join_output);
 
+        socket.on('join_err_full', function(){
+            alert("방이 꽉 찼습니다. 다른 방을 선택해 주세요.");
+            window.history.back();
+        });
+
+        socket.on('join_err_already_exist', function(){
+            alert("이미 방에 접속해 있습니다.");
+            window.history.back();
+        });
+
         $('#leave_room_button').on('click', function(){
 
-            var output = {command:'leave', room_creator_id:'<%= srci %>'};
+            var output = {command:'leave', room_creator_id:'<%= srci %>', joining_id:'<%= user.id %>'};
 
             console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
 
