@@ -27,6 +27,10 @@
     <br>
     <button id="leave_room_button">방 나가기</button>
 
+    <div id="chat_board"></div>
+
+    <textarea id="message_to_send" cols="80" rows="1"></textarea><button id="send_button">전송</button>
+
 
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -83,6 +87,26 @@
         socket.on('join_err_already_exist', function(){
             alert("이미 방에 접속해 있습니다.");
             window.history.back();
+        });
+
+        $('#send_button').on('click', function(){
+            console.log('send_button is clicked.');
+            var message = $('#message_to_send').val();
+
+            var output = {command:'chat_server_receiving', joining_room_creator_id:'<%= srci %>'
+            , message_sender:'<%= user.id %>', message_data:message};
+
+            socket.emit('chat', output);
+            console.log('chat_server_receiving event emitted.');
+        });
+
+        socket.on('chat_client_receiving', function(message_data){
+            console.log('received data : ', message_data);
+            if(message_data.message_sender=='<%= user.id %>'){
+                $('#chat_board').append('<p>나의 메세지 : '+message_data.message+'</p>');
+            }else{
+                $('#chat_board').append('<p>상대방의 메세지 : '+message_data.message+'</p>');
+            }
         });
 
         $('#leave_room_button').on('click', function(){

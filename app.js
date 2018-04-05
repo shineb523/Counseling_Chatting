@@ -172,8 +172,11 @@ io.sockets.on('connection', function(socket){
         console.dir(room);
 
         if(room.command == 'create'){
+            console.log('io.sockets.adapter.rooms[room.room_creator_id] : ', io.sockets.adapter.rooms[room.room_creator_id]);
             if(io.sockets.adapter.rooms[room.room_creator_id]){
                 console.log('해당 아이디로 이미 방이 만들어져 있습니다.');
+
+                socket.emit('already_room_creating_id');
 
                 getRoomList();
 
@@ -182,6 +185,8 @@ io.sockets.on('connection', function(socket){
 
                 socket.join(room.room_creator_id);
 
+                socket.user_id=room.room_creator_id;
+
                 var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
                 curRoom.room_creator_id=room.room_creator_id;
                 curRoom.room_creator_type=room.room_creator_type;
@@ -189,6 +194,7 @@ io.sockets.on('connection', function(socket){
                 curRoom.counsel_type=room.counsel_type;
                 curRoom.max_number_of_joining_ids=2;
                 curRoom.joining_ids=[room.room_creator_id];
+                curRoom.socket_id=socket.id;
 
                 getRoomList();
             }
@@ -217,43 +223,82 @@ io.sockets.on('connection', function(socket){
             	console.log('방이 만들어져 있지 않습니다.');
                 getRoomList();
             }
+
         } else if (room.command === 'join') {  // 방에 입장하기 요청
 
             console.log('room.selected_room_creator_id : ', room.selected_room_creator_id);
 
+            socket.user_id=room.joining_id;
+
             var curRoom=io.sockets.adapter.rooms[room.selected_room_creator_id];
 
-            if((curRoom.joining_ids).length == curRoom.max_number_of_joining_ids){
-                socket.emit('join_err_full');
-            }else if((curRoom.joining_ids).indexOf(room.joining_id) != -1){
+            if((curRoom.joining_ids).indexOf(room.joining_id) != -1){
                 // when joining_id already exists in selected chatting room.
-                socket.emit('join_err_already_exist');
-            }else{
-                // when joining_id doesn't exists in selected chatting room.
                 socket.join(room.selected_room_creator_id);
-
-                (curRoom.joining_ids).push(room.joining_id);
-
-                console.log('joining_ids : ', curRoom.joining_ids);
-
                 getRoomList();
-
-                // 응답 메시지 전송
-                sendResponse(socket, 'room', '200', '방에 입장했습니다.');
+            }else{
+                if((curRoom.joining_ids).length == curRoom.max_number_of_joining_ids){
+                    socket.emit('join_err_full');
+                    getRoomList();
+                }else{
+                    socket.join(room.selected_room_creator_id);
+                    (curRoom.joining_ids).push(room.joining_id);
+                    getRoomList();
+                }
             }
 
         } else if (room.command === 'leave') {  // 방 나가기 요청
 
-            socket.leave(room.room_creator_id);
-            var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
-            (curRoom.joining_ids).splice(((curRoom.joining_ids).indexOf(room.joining_id)),1);
-            var room_creator_type = curRoom.room_creator_type;
-            socket.emit('leave_redirect', String(room_creator_type));
+            	var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
+                // console.log('io.sockets.adapter.rooms[roomId]', outRoom);
+            	// find default room using all attributes
+            	var user_id_count=0;
+                Object.keys(curRoom).forEach(function(socket) {
+                	if (socket.user_id == room.joining_id) {
+                		user_id_count++;
+                	}
+                });
 
-            getRoomList();
+            if(user_id_count>=2){
+                socket.leave(room.room_creator_id);
+                var room_creator_type = curRoom.room_creator_type;
+                socket.emit('leave_redirect', String(room_creator_type));
+                getRoomList();
+                // send response message
+                sendResponse(socket, 'room', '200', '방에서 나갔습니다.');
+            }else{
+                if(room.room_creator_id==room.joining_id){
+                    socket.leave(room.room_creator_id);
+                    var room_creator_type = curRoom.room_creator_type;
+                    socket.emit('leave_redirect', String(room_creator_type));
+                    getRoomList();
+                    // send response message
+                    sendResponse(socket, 'room', '200', '방에서 나갔습니다.');
+                }else{
+                    (curRoom.joining_ids).splice(((curRoom.joining_ids).indexOf(room.joining_id)),1);
+                    socket.leave(room.room_creator_id);
+                    var room_creator_type = curRoom.room_creator_type;
+                    socket.emit('leave_redirect', String(room_creator_type));
+                    getRoomList();
+                    // send response message
+                    sendResponse(socket, 'room', '200', '방에서 나갔습니다.');
+                }
+            }
 
-            // 응답 메시지 전송
-            sendResponse(socket, 'room', '200', '방에서 나갔습니다.');
+        }
+    });
+
+    socket.on('chat', function(chat){
+        console.log('received chat event.');
+        // Sending message in chatting room.
+        if(chat.command==='chat_server_receiving'){
+            console.log('received chat_server_receiving event.')
+
+            console.log('chat.joining_room_creator_id : ', chat.joining_room_creator_id);
+
+            var message_data = {message_sender:chat.message_sender, message:chat.message_data};
+            (io.sockets.in(chat.joining_room_creator_id)).emit('chat_client_receiving', message_data);
+            console.log('emitted chat_client_receiving event.');
         }
     });
 
@@ -263,6 +308,7 @@ io.sockets.on('connection', function(socket){
         console.dir(io.sockets.adapter.rooms);
 
         var roomList = [];
+        var idList = [];
 
         Object.keys(io.sockets.adapter.rooms).forEach(function(roomId) { // for each room
         	// console.log('current room id : ' + roomId);
@@ -280,9 +326,9 @@ io.sockets.on('connection', function(socket){
             Object.keys(outRoom.sockets).forEach(function(key) {
             	// console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
 
-            	if (roomId == key ) {  // default room
+            	if (roomId == key ) {  // logined_id
             		foundExcept = true;
-            		// console.log('* this is default room. *');
+                    idList.push(outRoom);
             	}
 
             });
@@ -292,6 +338,9 @@ io.sockets.on('connection', function(socket){
             }
         });
 
+        console.log('\n\n==================[LOGIN ID LIST]==================\n');
+        console.dir(idList);
+        console.log('\n===================================================\n\n');
         console.log('\n\n====================[ROOM LIST]====================\n');
         console.dir(roomList);
         console.log('\n===================================================\n\n');
@@ -306,6 +355,7 @@ io.sockets.on('connection', function(socket){
         console.dir(io.sockets.adapter.rooms);
 
         var roomList = [];
+        var idList = [];
 
         Object.keys(io.sockets.adapter.rooms).forEach(function(roomId) { // for each room
         	// console.log('current room id : ' + roomId);
@@ -323,9 +373,9 @@ io.sockets.on('connection', function(socket){
             Object.keys(outRoom.sockets).forEach(function(key) {
             	// console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
 
-            	if (roomId == key ) {  // default room
+            	if (roomId == key ) {  // logined_id
             		foundExcept = true;
-            		// console.log('* this is default room. *');
+                    idList.push(outRoom);
             	}
 
             });
@@ -334,7 +384,9 @@ io.sockets.on('connection', function(socket){
             	roomList.push(outRoom);
             }
         });
-
+        console.log('\n\n==================[LOGIN ID LIST]==================\n');
+        console.dir(idList);
+        console.log('\n===================================================\n\n');
         console.log('\n\n====================[ROOM LIST]====================\n');
         console.dir(roomList);
         console.log('\n===================================================\n\n');
@@ -349,6 +401,7 @@ function getRoomList() {
 	console.dir(io.sockets.adapter.rooms);
 
     var roomList = [];
+    var idList = [];
 
     Object.keys(io.sockets.adapter.rooms).forEach(function(roomId) { // for each room
     	// console.log('current room id : ' + roomId);
@@ -359,11 +412,11 @@ function getRoomList() {
     	var foundDefault = false;
 
         Object.keys(outRoom.sockets).forEach(function(key) {
-        	// console.log('#' + index + ' : ' + key + ', ' + outRoom.sockets[key]);
 
-        	if (roomId == key) {  // default room
+
+        	if (roomId == key) {   // logined_id
         		foundDefault = true;
-        		// console.log('* this is default room. *');
+                idList.push(outRoom);
         	}
 
         });
@@ -373,6 +426,9 @@ function getRoomList() {
         }
     });
 
+    console.log('\n\n==================[LOGIN ID LIST]==================\n');
+    console.dir(idList);
+    console.log('\n===================================================\n\n');
     console.log('\n\n====================[ROOM LIST]====================\n');
     console.dir(roomList);
     console.log('\n===================================================\n\n');
@@ -383,3 +439,7 @@ function sendResponse(socket, command, code, message) {
 	var statusObj = {command: command, code: code, message: message};
 	socket.emit('response', statusObj);
 }
+
+// io.sockets.on('disconnection', function(socket){
+//     console.log('disconnection event emitted : ',socket);
+// });
