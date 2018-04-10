@@ -171,6 +171,8 @@ io.sockets.on('connection', function(socket){
         console.log('room 이벤트를 받았습니다.');
         console.dir(room);
 
+
+
         if(room.command == 'create'){
             console.log('io.sockets.adapter.rooms[room.room_creator_id] : ', io.sockets.adapter.rooms[room.room_creator_id]);
             if(io.sockets.adapter.rooms[room.room_creator_id]){
@@ -184,6 +186,7 @@ io.sockets.on('connection', function(socket){
                 console.log('방을 새로 만듭니다.');
 
                 socket.join(room.room_creator_id);
+
 
                 socket.user_id=room.room_creator_id;
 
@@ -208,10 +211,10 @@ io.sockets.on('connection', function(socket){
 
         }else if(room.command == 'update'){
 
-            var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
-            curRoom.room_creator_id=room.room_creator_id;
-            curRoom.room_creator_type=room.room_creator_type;
-            curRoom.room_title=room.room_title;
+            // var curRoom=io.sockets.adapter.rooms[room.room_creator_id];
+            // curRoom.room_creator_id=room.room_creator_id;
+            // curRoom.room_creator_type=room.room_creator_type;
+            // curRoom.room_title=room.room_title;
 
         }else if(room.command == 'delete'){
 
@@ -439,7 +442,3 @@ function sendResponse(socket, command, code, message) {
 	var statusObj = {command: command, code: code, message: message};
 	socket.emit('response', statusObj);
 }
-
-// io.sockets.on('disconnection', function(socket){
-//     console.log('disconnection event emitted : ',socket);
-// });
