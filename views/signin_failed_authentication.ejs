@@ -1,38 +1,92 @@
-<!-- 로그인 실패 메인 화면 -->
-
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Signin Error</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+        #title,
+        #login_form {
+            display: inline;
+            width: 260px;
+        }
+
+        #outermost,
+        #login_form {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #outermost {
+            align-items: center;
+            margin-top: 130px;
+        }
+
+        #title {
+            font-size: 50px;
+            color: dimgrey;
+        }
+
+        #id_input {
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        #id_input,
+        #signin_button,
+        #signup_button,
+        #find_account {
+            margin-bottom: 10px;
+            height: 50px;
+        }
+
+        #password_input {
+            height: 50px;
+        }
+
+        #signup_button,
+        #find_account {
+            padding-top: 11px;
+        }
+
+        #failed_authentication_message {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            font-size: 16px;
+            text-align: center;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
     </style>
 </head>
 
 <body>
+
     <div id="outermost">
         <div id="title">Title</div>
-        <div id="log_in">
-            <div id="failed_authentication_message">
+        <form id="login_form" method="post" action="/login">
+            <input id="id_input" class="form-control" name="userid" type="text" placeholder="ID">
+            <input id="password_input" class="form-control" name="userpassword" type="password" placeholder="PASSWORD">
+            <div id="failed_authentication_message" class="alert alert-danger">
                 Confirm your ID or PASSWORD
             </div>
-            <form id="login_form" method="post" action="/login">
-                <input id="id_input" name="userid" type="text" placeholder="ID">
-                <input id="password_input" name="userpassword" type="password" placeholder="PASSWORD">
-                <div id="login_button">
-                    <button id="signin_button" type="submit">sign-in</button>
-                    <a id="signup_button" href="/signup1_cellphone_authentication">sign-up</a>
-                    <a href="/room_list">둘러보기</a>
-                    <a id="find_account" href="/find_account">find-account</a>
-                </div>
-            </form>
-        </div>
+            <button id="signin_button" class="btn btn-outline-secondary" type="submit">sign-in</button>
+            <a id="signup_button" class="btn btn-outline-secondary" href="/signup1_cellphone_authentication">sign-up</a>
+            <a id="find_account" class="btn btn-outline-secondary" href="/find_account">find-account</a>
+        </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
