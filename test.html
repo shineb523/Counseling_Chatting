@@ -14,46 +14,17 @@
     </style>
 </head>
 <body>
-	<table id="room_list_table">
-	    <tr>
-	        <td>1st room</td>
-	        <td>2nd room</td>
-	        <td>3rd room</td>
-	        <td>4th room</td>
-	    </tr>
-	    <tr>
-	        <td>5th room</td>
-	        <td>6th room</td>
-	        <td>7th room</td>
-	        <td>8th room</td>
-	    </tr>
-	    <tr>
-	        <td>9th room</td>
-	        <td>10th room</td>
-	        <td>11th room</td>
-	        <td>12th room</td>
-	    </tr>
-	    <tr>
-	        <td>13th room</td>
-	        <td>14th room</td>
-	        <td>15th room</td>
-	        <td>16th room</td>
-	    </tr>
-	</table>
-	<table id="room_table_button">
-	    <tr>
-	        <td><button>prev</button></td>
-	        <td><p id="page_num">0</p></td>
-	        <td><button>next</button></td>
-	    </tr>
-	</table>
+	<div id="test_div">
+	    <p>before</p>
+	</div>
+	<button id="start">start</button>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 <script>
 	(jQuery)(function($) {
-        
-        
-
+        $('#start').on("click", function(){
+            $('#test_div').html("<h1>after</h1>");
+        });
 	});
 </script>
 </html>

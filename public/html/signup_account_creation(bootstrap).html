@@ -9,38 +9,56 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>회원가입(계정 생성)</title>
+    <style>
+        #submit_form{
+            display: flex;
+            flex-direction: column;
+            width: 320px;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top: 80px;
+        }
+        #title{
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 500;
+        }
+        .font-color-gray{
+            color: dimgrey;
+        }
+        button{
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+        a{
+            margin-left: 10px;
+        }
+    </style>
   </head>
   <body>
-      <form id="submit_form" action="/signup" method="post">
-        <div>
-            <label for="user_id">ID</label>
-            <input id="user_id" type="text" name="userid">
-            <strong id="id_required">알파벳, 숫자, 5~12자</strong>
-        </div>
-        <div>
-            <label for="user_password">PASSWORD</label>
-            <input id="user_password" type="password" name="userpassword">
-            <strong id="password_required">대문자 알파벳, 소문자 알파벳, 숫자, 특수문자, 10~16자</strong>
-        </div>
-        <div>
-            <label for="user_password_confirm">PASSWORD_CONFIRM</label>
-            <input id="user_password_confirm" type="password" name="password_confirm">
-            <strong id="password_confirm_required"></strong>
-        </div>
-
-        <button type="submit">회원가입</button>
+    <form id="submit_form" action="/signup" method="post">
+            <h1 id="title" class="font-color-gray">회원가입</h1>
+            <label for="user_id" class="font-color-gray">ID</label>
+            <input id="user_id" class="form-control is-invalid" type="text" name="userid">
+            <p class="invalid-feedback">알파벳, 숫자, 5~12자</p>
+            <label for="user_password" class="font-color-gray">PASSWORD</label>
+            <input id="user_password" class="form-control is-invalid" type="password" name="userpassword">
+            <p class="invalid-feedback">대문자 알파벳, 소문자 알파벳, 숫자, 특수문자, 10~16자</p>
+            <label for="user_password_confirm" class="font-color-gray">PASSWORD_CONFIRM</label>
+            <input id="user_password_confirm" class="form-control is-invalid" type="password" name="password_confirm">
+            <p class="invalid-feedback">INCORRECT</p>
+            <button type="submit" class="btn btn-outline-secondary">회원가입</button>
+            <!-- 계정이 있을 경우 메인 로그인 페이지로 이동 링크 -->
+            <div>
+                <span class="font-color-gray">이미 계정이 있으신가요?</span><a href="/">로그인하기</a>
+            </div>
     </form>
-
-    <!-- 계정이 있을 경우 메인 로그인 페이지로 이동 링크 -->
-    <p>이미 계정이 있으신가요? <a href="/">로그인하기</a></p>
-
+    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="../public/jquery.jsonrpc.js">
-    </script>
     <script>
         (jQuery)(function($) {
 
