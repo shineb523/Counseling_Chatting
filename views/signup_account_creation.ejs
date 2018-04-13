@@ -2,41 +2,68 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>회원가입(계정 생성)</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title></title>
     <style>
-        #id_required,
-        #password_required {
-            color: red;
+        #signup_title{
+            font-size: 40px;
+            color: dimgrey;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #submit_form{
+            width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+        }
+        #user_id_div, #user_password_div{
+            margin-bottom: 20px;
+        }
+        button{
+            margin-bottom: 10px;
+        }
+        a{
+            margin-left: 15px;
+        }
+        label, span{
+            color: dimgrey;
+        }
+        #user_password_confirm_div{
+            margin-bottom: 30px;
         }
     </style>
 </head>
 
 <body>
     <form id="submit_form" action="/signup" method="post">
-        <div>
-            <label for="user_id">ID</label>
-            <input id="user_id" type="text" name="userid">
-            <strong id="id_required">알파벳, 숫자, 5~12자</strong>
+        <p id="signup_title">회원가입</p>
+        <label for="user_id">ID</label>
+        <div id="user_id_div">
+            <input id="user_id" class="form-control is-invalid" type="text" name="userid">
+            <p id="id_required" class="invalid-feedback">알파벳, 숫자, 5~12자</p>
         </div>
-        <div>
-            <label for="user_password">PASSWORD</label>
-            <input id="user_password" type="password" name="userpassword">
-            <strong id="password_required">대문자 알파벳, 소문자 알파벳, 숫자, 특수문자, 10~16자</strong>
+        <label for="user_password">PASSWORD</label>
+        <div id="user_password_div">
+            <input id="user_password" class="form-control is-invalid" type="password" name="userpassword">
+            <p id="password_required" class="invalid-feedback">대문자 알파벳, 소문자 알파벳, 숫자, 특수문자, 10~16자</p>
         </div>
-        <div>
-            <label for="user_password_confirm">PASSWORD_CONFIRM</label>
-            <input id="user_password_confirm" type="password" name="password_confirm">
-            <strong id="password_confirm_required"></strong>
+        <label for="user_password_confirm">PASSWORD_CONFIRM</label>
+        <div id="user_password_confirm_div">
+            <input id="user_password_confirm" class="form-control is-invalid" type="password" name="password_confirm">
+            <p id="password_confirm_required" class="invalid-feedback">INCORRECT</p>
         </div>
 
-        <button type="submit">회원가입</button>
+        <button type="submit" class="btn btn-outline-secondary">회원가입</button>
+        <!-- 계정이 있을 경우 메인 로그인 페이지로 이동 링크 -->
+        <br>
+        <span>이미 계정이 있으신가요?</span><a href="/">로그인하기</a>
     </form>
-
-    <!-- 계정이 있을 경우 메인 로그인 페이지로 이동 링크 -->
-    <p>이미 계정이 있으신가요? <a href="/">로그인하기</a></p>
 
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous">
     </script>
@@ -103,13 +130,18 @@
                             console.log('jsonRPC success 응답 받음.');
                             if(data.result[0]=='o'){
                                 console.log('아이디 중복 체크 : 이미 아이디가 존재함. 생성 불가능한 아이디.');
-                                $("#id_required").text("동일 아이디 존재").css("color", "red");
+                                $('#user_id').attr('class', 'form-control is-invalid');
+                                $("#id_required").attr('class', 'invalid-feedback');
+                                $("#id_required").text("동일 아이디 존재");
                                 overlap_check=true;
 
                             }else if (data.result[0]=='x') {
                                 // 아이디 필요조건을 모두 만족했을 때, 필요조건 메시지를 초록색 "OK"로 출력
                                 console.log('아이디 중복 체크 : 중복되는 아이디가 존재하지 않음. 생성 가능한 아이디.');
-                                $("#id_required").text("OK").css("color", "green");
+                                $('#user_id').attr('class', 'form-control is-valid');
+                                $("#id_required").attr('class', 'valid-feedback');
+                                $("#id_required").text("OK");
+
                                 overlap_check=false;
                             }
 
@@ -176,7 +208,9 @@
                         }
                     }
                     // 아이디 필요조건을 모두 만족시키지 못했을 경우, 빨간 글씨로 만족되지 못한 필요조건을 출력한다.
-                    $("#id_required").text(result).css("color", "red");
+                    $('#user_id').attr('class', 'form-control is-invalid');
+                    $("#id_required").attr('class', 'invalid-feedback');
+                    $("#id_required").text(result);
                 }
 
             });
@@ -186,7 +220,9 @@
 
                 if (password_pattern.test(user_password.val())) {
                     // 비밀번호 필요조건을 모두 만족했을 때, 필요조건 메시지를 초록색 "OK"로 출력
-                    $("#password_required").text("OK").css("color", "green");
+                    $('#user_password').attr('class', 'form-control is-valid');
+                    $("#password_required").attr('class', 'valid-feedback');
+                    $("#password_required").text("OK");
                 } else {
                     // 비밀번호 알파벳 대문자 존재 검사 정규표현식 만족 여부에 따라, 비밀번호 검사 배열의 알파벳 대문자 해당 값 변경
                     if (password_upper_case_alphabet_pattern.test(user_password.val()) == false) {
@@ -257,7 +293,9 @@
                         }
                     }
                     // 아이디 필요조건을 모두 만족시키지 못했을 경우, 빨간 글씨로 만족되지 못한 필요조건을 출력한다.
-                    $("#password_required").text(result).css("color", "red");
+                    $('#user_password').attr('class', 'form-control is-invalid');
+                    $("#password_required").attr('class', 'invalid-feedback');
+                    $("#password_required").text(result);
 
                 }
             });
@@ -267,10 +305,14 @@
                 // 만약 비밀번호와 비밀번호 확인 폼의 값이 서로 같으면
                 if (user_password.val() == user_password_confirm.val()) {
                     // 초록색 "OK"를 출력
-                    $("#password_confirm_required").text("OK").css("color", "green");
+                    $('#user_password_confirm').attr('class', 'form-control is-valid');
+                    $("#password_confirm_required").attr('class', 'valid-feedback');
+                    $("#password_confirm_required").text("CORRECT");
                 } else {
                     // 서로 다르면, 빨간색 "incorrect"를 출력
-                    $("#password_confirm_required").text("incorrect").css("color", "red");
+                    $('#user_password_confirm').attr('class', 'form-control is-invalid');
+                    $("#password_confirm_required").attr('class', 'invalid-feedback');
+                    $("#password_confirm_required").text("INCORRECT");
                 }
             });
 

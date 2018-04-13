@@ -1,64 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>회원가입(계정 생성)</title>
+    <title></title>
     <style>
-        #submit_form{
-            display: flex;
-            flex-direction: column;
-            width: 320px;
-            margin-left:auto;
-            margin-right:auto;
-            margin-top: 80px;
-        }
-        #title{
-            text-align: center;
-            margin-bottom: 50px;
-            font-weight: 500;
-        }
-        .font-color-gray{
+        #signup_title{
+            font-size: 40px;
             color: dimgrey;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #submit_form{
+            width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+        }
+        #user_id_div, #user_password_div{
+            margin-bottom: 20px;
         }
         button{
-            margin-top: 8px;
             margin-bottom: 10px;
         }
         a{
-            margin-left: 10px;
+            margin-left: 15px;
+        }
+        label, span{
+            color: dimgrey;
+        }
+        #user_password_confirm_div{
+            margin-bottom: 30px;
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <form id="submit_form" action="/signup" method="post">
-            <h1 id="title" class="font-color-gray">회원가입</h1>
-            <label for="user_id" class="font-color-gray">ID</label>
+        <p id="signup_title">회원가입</p>
+        <div id="user_id_div">
+            <label for="user_id">ID</label>
             <input id="user_id" class="form-control is-invalid" type="text" name="userid">
-            <p class="invalid-feedback">알파벳, 숫자, 5~12자</p>
-            <label for="user_password" class="font-color-gray">PASSWORD</label>
+            <p id="id_required" class="invalid-feedback">알파벳, 숫자, 5~12자</p>
+        </div>
+        <div id="user_password_div">
+            <label for="user_password">PASSWORD</label>
             <input id="user_password" class="form-control is-invalid" type="password" name="userpassword">
-            <p class="invalid-feedback">대문자 알파벳, 소문자 알파벳, 숫자, 특수문자, 10~16자</p>
-            <label for="user_password_confirm" class="font-color-gray">PASSWORD_CONFIRM</label>
+            <p id="password_required" class="invalid-feedback">대문자 알파벳, 소문자 알파벳, 숫자, 특수문자, 10~16자</p>
+        </div>
+        <div id="user_password_confirm_div">
+            <label for="user_password_confirm">PASSWORD_CONFIRM</label>
             <input id="user_password_confirm" class="form-control is-invalid" type="password" name="password_confirm">
-            <p class="invalid-feedback">INCORRECT</p>
-            <button type="submit" class="btn btn-outline-secondary">회원가입</button>
-            <!-- 계정이 있을 경우 메인 로그인 페이지로 이동 링크 -->
-            <div>
-                <span class="font-color-gray">이미 계정이 있으신가요?</span><a href="/">로그인하기</a>
-            </div>
+            <p id="password_confirm_required" class="invalid-feedback">INCORRECT</p>
+        </div>
+
+        <button type="submit" class="btn btn-outline-secondary">회원가입</button>
+        <!-- 계정이 있을 경우 메인 로그인 페이지로 이동 링크 -->
+        <br>
+        <span>이미 계정이 있으신가요?</span><a href="/">로그인하기</a>
     </form>
-    
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous">
+    </script>
+    <script src="../public/jquery.jsonrpc.js">
+    </script>
     <script>
         (jQuery)(function($) {
 
@@ -126,7 +136,7 @@
                             }else if (data.result[0]=='x') {
                                 // 아이디 필요조건을 모두 만족했을 때, 필요조건 메시지를 초록색 "OK"로 출력
                                 console.log('아이디 중복 체크 : 중복되는 아이디가 존재하지 않음. 생성 가능한 아이디.');
-                                $("#id_required").text("OK").css("color", "green");
+                                $("#id_required").text("OK");
                                 overlap_check=false;
                             }
 
@@ -193,7 +203,7 @@
                         }
                     }
                     // 아이디 필요조건을 모두 만족시키지 못했을 경우, 빨간 글씨로 만족되지 못한 필요조건을 출력한다.
-                    $("#id_required").text(result).css("color", "red");
+                    $("#id_required").text(result);
                 }
 
             });
@@ -203,7 +213,7 @@
 
                 if (password_pattern.test(user_password.val())) {
                     // 비밀번호 필요조건을 모두 만족했을 때, 필요조건 메시지를 초록색 "OK"로 출력
-                    $("#password_required").text("OK").css("color", "green");
+                    $("#password_required").text("OK");
                 } else {
                     // 비밀번호 알파벳 대문자 존재 검사 정규표현식 만족 여부에 따라, 비밀번호 검사 배열의 알파벳 대문자 해당 값 변경
                     if (password_upper_case_alphabet_pattern.test(user_password.val()) == false) {
@@ -274,7 +284,7 @@
                         }
                     }
                     // 아이디 필요조건을 모두 만족시키지 못했을 경우, 빨간 글씨로 만족되지 못한 필요조건을 출력한다.
-                    $("#password_required").text(result).css("color", "red");
+                    $("#password_required").text(result);
 
                 }
             });
@@ -284,10 +294,10 @@
                 // 만약 비밀번호와 비밀번호 확인 폼의 값이 서로 같으면
                 if (user_password.val() == user_password_confirm.val()) {
                     // 초록색 "OK"를 출력
-                    $("#password_confirm_required").text("OK").css("color", "green");
+                    $("#password_confirm_required").text("CORRECT");
                 } else {
                     // 서로 다르면, 빨간색 "incorrect"를 출력
-                    $("#password_confirm_required").text("incorrect").css("color", "red");
+                    $("#password_confirm_required").text("INCORRECT");
                 }
             });
 
@@ -329,5 +339,6 @@
 
         });
     </script>
-  </body>
+</body>
+
 </html>

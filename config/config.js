@@ -90,13 +90,8 @@
              type: 'get'
          },
          {
-             method_file_path: '../routes/route_files/signup1_cellphone_authentication_get',
-             path: '/signup1_cellphone_authentication',
-             type: 'get'
-         },
-         {
-             method_file_path: '../routes/route_files/signup2_account_creation_get',
-             path: '/signup2_account_creation',
+             method_file_path: '../routes/route_files/signup_account_creation_get',
+             path: '/signup_account_creation',
              type: 'get'
          },
          {
